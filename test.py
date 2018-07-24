@@ -1,7 +1,7 @@
 import unittest
 import vptree
 import numpy as np
-
+from collections import namedtuple
 
 class TestVPTree(unittest.TestCase):
 
@@ -51,6 +51,12 @@ class TestVPTree(unittest.TestCase):
     def test_zero_neighbors_raises_valueerror(self):
         tree = vptree.VPTree([1, 2, 3], euclidean)
         self.assertRaises(ValueError, tree.get_n_nearest_neighbors, [1], 0)
+
+    def test_namedtuple_input(self):
+        Node = namedtuple('Node', 'id coordinate')
+        nodes = [Node('1', np.array([1, 0])), Node('2', np.array([1,1]))]
+        vptree.VPTree(nodes, lambda n1, n2: euclidean(n1.coordinate, n2.coordinate))
+
 
 
 def euclidean(p1, p2):
